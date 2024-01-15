@@ -213,14 +213,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const nextButton = document.querySelector('.time-next-button');
     let currentOffset = 0;
 
-    const slideWidth = slides[0].offsetWidth + 10; // +10 pour l'espace entre les slides
+    const slideWidth = slides[0].offsetWidth + 10;
 
-    // Fonction pour mettre à jour le carousel
     function updateCarousel(offset) {
         track.style.transform = `translateX(${offset}px)`;
     }
 
-    // Gestionnaire d'événement pour le bouton précédent
     prevButton.addEventListener('click', function() {
         if (currentOffset < 0) {
             currentOffset += slideWidth;
@@ -228,7 +226,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Gestionnaire d'événement pour le bouton suivant
     nextButton.addEventListener('click', function() {
         if (-(currentOffset - slideWidth) < slideWidth * slides.length) {
             currentOffset -= slideWidth;
@@ -236,6 +233,4 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
-
-// Carousel d'heures
 

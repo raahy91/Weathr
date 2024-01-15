@@ -3,39 +3,6 @@ import requests
 import util
 
 
-# Retourne les conditions actuelles
-def get_current_weather(city):
-    k = '9b850645018b450195550707240701'
-    url = f"http://api.weatherapi.com/v1/current.json?key={k}&q={city}&lang=fr"
-    response = requests.get(url)
-    data = response.json()
-
-    if 'current' not in data:
-        return None
-
-    current_data = data['current']
-    city_weather_data = {
-        'city': data['location']['name'],
-        'time': data['location']['localtime'][11:],
-        'week_day': util.get_week_day(data['location']['localtime'][:10]),
-        'date': util.return_date(data['location']['localtime'][:10]),
-        'location': data['location']['name'] + ", " + data['location']['country'],
-        'temperature_c': current_data['temp_c'],
-        'temperature_f': current_data['temp_f'],
-        'feels_like': current_data['feelslike_c'],
-        'weather_description': current_data['condition']['text'],
-        'humidity': current_data['humidity'],
-        'wind_k': current_data.get('wind_kph', 0),
-        'wind_m': util.kph_to_mph(current_data.get('wind_kph', 0)),
-        'wind_direction': current_data['wind_dir'],
-        'clouds': current_data['cloud'],
-        'precipitation': current_data.get('precip_mm', 0),
-        'snow': current_data.get('snow_mm', 0),
-        'icon': "https:" + current_data['condition']['icon']
-        }
-
-    return city_weather_data
-
 # Retourne le forecast de x days (7 par défaut) à intervalle de y hours (2 par défaut)
 def get_weather_forecast(city, days=7, interval=2):
     api_key = '9b850645018b450195550707240701'
