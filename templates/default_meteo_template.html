@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Weathr</title>
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/meteo_style.css') }}">
+</head>
+<body>
+
+    <div class="main-container">
+        <div class="search_bar">
+            <form id="cityForm" class ="cityForm" action="/show_weather" method="get">
+                <input type="text" id="city" name="city" placeholder="City">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon-search" width="18" height="18" viewBox="0 0 24 24" stroke-width="1.5" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                  <circle cx="10" cy="10" r="7" />
+                  <line x1="21" y1="21" x2="15" y2="15" />
+                </svg>
+            </form>
+        </div>
+
+        <div id="current_date" data-current_date="{{ current_date }}"></div>
+
+        <div class="temp-checkbox">
+            <input type="checkbox" id="CelciusFahrenheit">
+            <label for="CelciusFahrenheit"></label>
+        </div>
+
+        <div class="wind-checkbox">
+            <input type="checkbox" id="KphMph">
+            <label for="KphMph"></label>
+        </div>
+
+        {% set current_hour = current_time.split(':')[0] | int %}
+        {% if current_hour % 2 == 0 %}
+            {% set closest_time = '%02d:00' | format(current_hour) %} {# Sinon, arrondissez à l'heure paire suivante #}
+        {% elif current_hour == 23 %}
+            {% set closest_time = '22:00' %}
+        {% else %}
+            {% set closest_time = '%02d:00' | format(current_hour + 1) %} {# Sinon, arrondissez à l'heure paire suivante #}
+        {% endif %}
+
+        <div class="main_weather_contener">
+            <div class="main_weather_contener_icon">
+                <img src="{{ forecast[day_date][closest_time]['icon'] }}" alt="Weather Icon" style="width: 100px;">
+            </div>
+            <div class="main_weather_contener_date">
+                <p id="main_weather_contener_date">{{ forecast[day_date][closest_time]['week_day'] }}, {{ forecast[day_date][closest_time]['date'] }}</p>
+            </div>
+            <div class="main_weather_contener_time">
+                <p id="main_weather_contener_time">{{current_time}}</p>
+            </div>
+            <div class="main_weather_contener_location">
+                <p id="main_weather_contener_location">{{ forecast[day_date][closest_time]['location'] }}</p>
+            </div>
+            <div class="clock">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock-hour-4" width="26" height="26" viewBox="0 0 24 24" stroke-width="1.5" stroke="#4A4A4A" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                    <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+                    <path d="M12 12l3 2" />
+                    <path d="M12 7v5" />
+                </svg>
+            </div>
+            <div class="main_weather_contener_temperature">
+                <p id="current_temperature" data-celsius="{{ forecast[day_date]['00:00']['temperature_c'] }}" data-fahrenheit="{{ forecast[day_date]['00:00']['temperature_f'] }}">
+                {{ forecast[day_date][closest_time]['temperature_c'] }}°C
+                </p>
+            </div>
+            <div class="main_weather_contener_humidity">
+                <p id="main_weather_contener_humidity">Humidity: {{ forecast[day_date][closest_time]['humidity'] }}%</p>
+            </div>
+            <div class="main_weather_contener_wind">
+                <p id="current_wind" data-kph="{{forecast[day_date][closest_time]['wind_k']}}" data-mph="{{forecast[day_date][closest_time]['wind_m']}}">
+                Wind speed: {{ forecast[day_date][closest_time]['wind_k'] }} km/h</p>
+                </p>
+            </div>
+             <div class="main_weather_contener_precipitation">
+                {% if forecast[day_date][closest_time]['precipitation'] > 0.5 %}
+                    <p id="main_weather_contener_precipitation">Precipitation: {{ forecast[day_date][closest_time]['precipitation'] }} mm</p>
+                {% endif %}
+            </div>
+            <div class="main_weather_contener_snow">
+                {% if forecast[day_date][closest_time]['snow'] > 0.5 %}
+                    <p id="main_weather_contener_snow">Snow: forecast[day_date][closest_time]['snow'] mm</p>
+                {% endif %}
+            </div>
+
+            <button class="time-carousel time-prev-button"></button>
+            <div id="time-carousel" class="time-carousel">
+                <div class="time-carousel-track-container">
+                    <ul class="time-carousel-track">
+                        {% for date, data in forecast.items() %}
+                            {% if date == day_date %}
+                                {% for hour in range(0, 24, 2) %}
+                                    <li class="time-carousel-slide">
+                                        {% set hour_key = '%02d:00' | format(hour) %}
+                                        <div class="time-carousel-time">{{ '%02d:00' | format(hour) }}</div>
+                                        <div class="time-carousel-icon"><img src="{{ data[hour_key]['icon'] }}" alt="Weather Icon" style="width: 70px;"></div>
+                                        <div class="time-carousel-temp" data-celsius="{{ data[hour_key]['temperature_c'] }}" data-fahrenheit="{{ data[hour_key]['temperature_f'] }}">
+                                            <p>
+                                            {{ data[hour_key]['temperature_c'] }}°C
+                                            </p>
+                                        </div>
+                                    </li>
+                                {% endfor %}
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            <button class="carousel-button time-next-button"></button>
+
+        </div>
+
+
+        <div class="carousel-container">
+            <button class="carousel-button prev-button"></button>
+
+            <div id="carousel" class="carousel">
+                <div class="carousel-track-container">
+                    <ul class="carousel-track">
+                        {% for date, data in forecast.items() %}
+                            <li class="carousel-slide" data-date="{{ data[closest_time]['week_day'] }}, {{ data[closest_time]['date'] }}" data-icon="{{data[closest_time]['icon']}}" data-time={{current_time}} data-week_day="{{data[closest_time]['week_day']}}" data-location="{{data[closest_time]['location']}}"
+                            data-temperature_c="{{data[closest_time]['temperature_c']}}" data-temperature_f="{{data[closest_time]['temperature_f']}}" data-wind_k="{{data[closest_time]['wind_k']}}" data-wind_m="{{data[closest_time]['wind_m']}}"
+                            data-humidity="{{data[closest_time]['humidity']}}" data-precipitation="{{data[closest_time]['precipitation']}}" data-snow="{{data[closest_time]['snow']}}" data-daydate = "{{ data[closest_time]['day_date']}}">
+                                {% if loop.first %}
+                                    <div class="forecast_week_day">Today</div>
+                                {% else %}
+                                    <div class="forecast_week_day">{{ data[closest_time]['week_day'] }}</div>
+                                {% endif %}
+                                <div class="forecast_date">{{ data['00:00']['date'] }}</div>
+                                <div class="forecast_icon"><img src="{{ data['14:00']['icon'] }}" alt="Weather Icon" style="width: 70px;"></div>
+                                <div class="forecast_max_min"
+                                     data-min-c="{{ data['min_c'] }}"
+                                     data-max-c="{{ data['max_c'] }}"
+                                     data-min-f="{{ data['min_f'] }}"
+                                     data-max-f="{{ data['max_f'] }}">
+                                    <span class="temp-min">{{ data['min_c'] }}°C</span>&nbsp;&nbsp;<strong>-</strong>&nbsp;&nbsp;<span class="temp-max">{{ data['max_c'] }}°C</span>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+
+            <button class="carousel-button next-button"></button>
+        </div>
+    </div>
+
+    <div id="cityData" data-city="{{ current_city }}"></div>
+    <script src="{{ url_for('static', filename='js/meteo_funct.js') }}"></script>
+</body>
+</html>

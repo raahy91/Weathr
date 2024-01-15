@@ -1,0 +1,463 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+    font-family: 'Comfortaa', cursive;
+    font-weight: 300; /* Light */
+}
+
+.main-container {
+    background: linear-gradient(135deg,
+                                #404040 40%, #505050 80%,
+                                #606060 100%);
+    border: 1px solid grey; /* Bordure grise */
+    padding: 20px; /* Espace intérieur pour séparer le contenu de la bordure */
+    margin: auto; /* Centre le conteneur dans la page */
+    max-width: 770px; /* Largeur maximale du conteneur */
+    max-height: 620px;
+    border-radius: 10px; /* Coins arrondis de la bordure */
+}
+
+.temp-checkbox {
+    position: relative;
+    left: 630px;
+    top: -50px;
+    width: 60px;
+}
+
+.temp-checkbox input[type='checkbox'] {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.temp-checkbox label {
+    display: block;
+    cursor: pointer;
+    width: 60px;
+    height: 30px;
+    background-color: #ccc;
+    border-radius: 15px;
+    position: relative;
+    transition: background-color 0.2s;
+}
+
+.temp-checkbox label::after {
+    content: "";
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 24px;
+    height: 24px;
+    background-color: white;
+    border-radius: 50%;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+}
+
+.temp-checkbox input[type='checkbox'] + label::after {
+    content: "°C";
+}
+
+.temp-checkbox input[type='checkbox']:checked + label {
+    background-color: #4CAF50;
+}
+
+.temp-checkbox input[type='checkbox']:checked + label::after {
+    left: 33px;
+    content: "°F";
+}
+
+
+.wind-checkbox {
+    position: relative;
+    left: 560px;
+    top: -98px;
+    width: 60px;
+}
+
+.wind-checkbox input[type='checkbox'] {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.wind-checkbox label {
+    display: block;
+    cursor: pointer;
+    width: 60px;
+    height: 30px;
+    background-color: #ccc;
+    border-radius: 15px;
+    position: relative;
+    transition: background-color 0.2s;
+}
+
+.wind-checkbox label::after {
+    content: "";
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 24px;
+    height: 24px;
+    background-color: white;
+    border-radius: 50%;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+}
+
+.wind-checkbox input[type='checkbox'] + label::after {
+    content: "km/h";
+}
+
+.wind-checkbox input[type='checkbox']:checked + label {
+    background-color: #4CAF50;
+}
+
+.wind-checkbox input[type='checkbox']:checked + label::after {
+    left: 33px;
+    content: "mph";
+}
+
+.search_bar {
+    display: flex;
+    justify-content: center;
+}
+
+.cityForm {
+    position: relative;
+    left: -160px;
+    top: -5px;
+}
+
+input#city {
+    width: 350px;
+    border-radius: 20px; /* Arrondit les coins de la barre de recherche */
+    border: 1px solid grey; /* Couleur de la bordure, ajustez selon vos besoins */
+    padding: 5px; /* Espace intérieur pour le texte */
+    outline: none; /* Supprime la bordure de focus par défaut */
+}
+
+.icon-search {
+    position: absolute;
+    right: 5px; /* Ajustez selon vos besoins */
+    top: 50%;
+    transform: translateY(-50%); /* Centrer verticalement */
+    pointer-events: none; /* Permet de cliquer sur l'input derrière l'icône */
+}
+
+.main_weather_contener {
+    position: relative;
+    top: -110px;
+    border: 1px solid black;
+    padding: 20px;
+    margin: 20px;
+    background-color: white;
+    border-radius: 20px;
+    max-width: 680px;
+    min-height:400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.main_weather_contener_date {
+    position: absolute; /* Positionnement absolu par rapport au conteneur parent */
+    top: 0;    /* Haut du conteneur */
+    right: 14px;  /* Droite du conteneur */
+    font-size: 20px; /* Taille de la police plus grande */
+    font-weight: 600; /* Rendre le texte en gras */
+}
+
+.main_weather_contener_location {
+    position: absolute; /* Positionnement absolu par rapport au conteneur parent */
+    top: 45px;    /* Haut du conteneur */
+    right: 14px;  /* Droite du conteneur */
+    font-size: 16px; /* Taille de la police plus grande */
+    font-weight: 400; /* Rendre le texte en gras */
+}
+
+.main_weather_contener_time {
+    position: absolute;
+    top: 76px;
+    right: 14px;
+    font-size: 18px;
+    font-weight: 400;
+}
+
+.clock {
+    position: absolute;
+    top: 90px;
+    right: 60px;
+}
+
+.main_weather_contener_icon {
+    position:absolute;
+    top: 0px;
+    left: 10px;
+}
+
+.main_weather_contener_temperature {
+    position:absolute;
+    top: 0px;
+    left: 110px;
+}
+
+#current_temperature {
+    font-size: 32px;
+    font-weight: 400;
+}
+
+.main_weather_contener_wind {
+    position: absolute;
+    top: 80px;
+    left: 30px;
+}
+
+.main_weather_contener_humidity {
+    position: absolute;
+    top: 110px;
+    left: 30px;
+}
+
+.main_weather_contener_precipitation {
+    position: absolute;
+    top: 140px;
+    left: 30px;
+}
+
+.main_weather_contener_snow {
+    position: absolute;
+    top: 170px;
+    left: 30px;
+}
+
+.carousel-container {
+    position: relative;
+    top: -110px;
+    width: 664px;
+    margin: 20px auto;
+}
+
+.carousel {
+    width: 680px;
+    margin: 0 auto;
+    overflow-x: hidden;
+    overflow-y: visible;
+}
+
+.carousel-track-container {
+  width: 100%; /* Ensures the container fits the carousel width */
+  height: 150px;
+}
+
+.carousel-track {
+  list-style-type: none;
+  display: flex;
+  margin: 0; /* Removes default margin */
+  padding: 0; /* Removes default padding */
+  transition: transform 0.5s ease;
+}
+
+.carousel-slide {
+  position: relative;
+  top: 15px;
+  border: 1px solid black;
+  border-radius: 5px;
+  background: #fff;
+  margin-right: 10px; /* Space between slides */
+  flex: 0 0 calc(100% / 3 - 8px); /* Each slide takes up 1/3 of the carousel width */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: 110px;
+  transition: transform 0.3s ease;
+
+}
+
+.prev-button, .next-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    width: 0;
+    height: 0;
+    border-style: solid;
+}
+
+/* Bouton précédent (triangle gauche) */
+.prev-button {
+    left: -33px; /* Position à gauche du carrousel */
+    top: 55px;
+    border-width: 40px 30px 40px 0; /* Augmentez les valeurs de bordure supérieure et inférieure */
+    border-color: transparent transparent transparent #ccc; /* Couleur du triangle (côté gauche) */
+}
+
+/* Bouton suivant (triangle droit) */
+.next-button {
+    right: -27px; /* Position à droite du carrousel */
+    top: 55px;
+    border-width: 40px 0 40px 30px; /* Augmentez les valeurs de bordure supérieure et inférieure */
+    border-color: transparent #ccc transparent transparent; /* Couleur du triangle (côté droit) */
+}
+
+/* Styles supplémentaires pour l'effet de survol (si nécessaire) */
+.prev-button::before, .next-button::before {
+    content: '';
+    display: block;
+    width: 0;
+    height: 0;
+    border-style: solid;
+}
+
+.prev-button::before {
+    border-width: 20px 15px 20px 0; /* Ajuster pour correspondre aux nouvelles tailles */
+    border-color: transparent white transparent transparent;
+}
+
+.next-button::before {
+    border-width: 20px 0 20px 15px; /* Ajuster pour correspondre aux nouvelles tailles */
+    border-color: transparent transparent transparent white;
+}
+
+
+
+.forecast_week_day {
+    position:relative;
+    left: 10px;
+    top:10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+}
+
+.forecast_date {
+    position:relative;
+    left: 10px;
+    top:15px;
+    font-size: 12px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+}
+
+.forecast_icon {
+    position:relative;
+    left: 110px;
+    top:-30px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+}
+
+.forecast_max_min {
+    position:relative;
+    left: 0px;
+    bottom:5px;
+}
+
+.carousel-slide:hover {
+  transform: translateY(-10px);
+}
+
+.time-carousel {
+  width: 636px;
+  position: relative;
+  right: 0px;
+  top: 235px;
+  overflow-x: hidden;
+  overflow-y: visible;
+}
+
+.time-carousel-track-container {
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
+.time-carousel-track {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  transition: transform 0.5s ease;
+}
+
+.time-carousel-slide {
+  border: 1px;
+  border-radius: 5px;
+  background-color: white;
+  margin-right: 10px; /* Espace entre les slides */
+  flex: 0 0 auto; /* Taille flexible basée sur le contenu */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 130px; /* Hauteur du slide */
+  min-width: 100px; /* Largeur minimale du slide */
+  flex-direction: column;
+}
+
+.time-carousel-time {
+  position: relative;
+  top: 15px;
+}
+
+.time-carousel-icon {
+    position:relative;
+    top: 15px;
+}
+
+.time-carousel-temp {
+    position: relative;
+    top:0px;
+}
+
+.time-prev-button, .time-next-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    width: 0;
+    height: 0;
+    border-style: solid;
+}
+
+.time-prev-button {
+    left: -5px;
+    top: 318px;
+    border-width: 14px 10px 14px 0;
+    border-color: transparent #2e2e2e transparent transparent;
+}
+
+.time-next-button {
+    right: -5px;
+    top: 318px;
+    border-width: 14px 0 14px 10px;
+    border-color: transparent transparent transparent #2e2e2e;
+}
+
+.time-prev-button::before {
+    border-width: 10px 15px 10px 0;
+    border-color: transparent solid black transparent transparent;
+}
+
+.time-next-button::before {
+    border-width: 10px 0 10px 15px;
+    border-color: transparent transparent transparent solid black;
+}
+
